@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rust New Gen Hub</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-image: url('https://cdn.cloudflare.steamstatic.com/steam/apps/252490/page_bg_generated_v6b.jpg');
+      background-size: cover;
+      background-position: center;
+      font-family: 'Segoe UI', sans-serif;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      backdrop-filter: brightness(0.7);
+      overflow-x: hidden;
+    }
+
+    .container {
+      text-align: center;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 0 30px rgba(0,0,0,0.7);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      max-width: 600px;
+      width: 90%;
+      animation: fadeInUp 1s ease-out;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 30px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+      background: linear-gradient(45deg, #e74c3c, #f39c12);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .button-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    button {
+      background: linear-gradient(45deg, #e74c3c, #c0392b);
+      color: white;
+      padding: 15px 25px;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+      text-transform: uppercase;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+    }
+
+    button:hover {
+      background: linear-gradient(45deg, #c0392b, #a93226);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    #countdown {
+      font-size: 2rem;
+      margin: 20px 0;
+      padding: 20px;
+      background: rgba(231, 76, 60, 0.2);
+      border-radius: 15px;
+      border: 2px solid rgba(231, 76, 60, 0.5);
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+      font-weight: bold;
+    }
+
+    #news {
+      display: none;
+      margin-top: 20px;
+      font-size: 1rem;
+      text-align: left;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 20px;
+      border-radius: 15px;
+      border-left: 4px solid #e74c3c;
+      animation: slideDown 0.3s ease-out;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        max-height: 0;
+        padding: 0 20px;
+      }
+      to {
+        opacity: 1;
+        max-height: 500px;
+        padding: 20px;
+      }
+    }
+
+    #news h3 {
+      color: #e74c3c;
+      margin-top: 0;
+      border-bottom: 1px solid rgba(231, 76, 60, 0.3);
+      padding-bottom: 10px;
+    }
+
+    .server-status {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+      padding: 15px;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 10px;
+      font-size: 0.9rem;
+    }
+
+    .status-item {
+      text-align: center;
+    }
+
+    .status-online {
+      color: #2ecc71;
+    }
+
+    .status-offline {
+      color: #e74c3c;
+    }
+
+    .social-links {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .social-btn {
+      padding: 10px 15px;
+      font-size: 0.9rem;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .social-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 20px;
+        margin: 10px;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+      
+      #countdown {
+        font-size: 1.5rem;
+      }
+      
+      .button-group {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      button {
+        width: 100%;
+        max-width: 250px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔥 Rust New Gen Hub 🔥</h1>
+    
+    <div class="button-group">
+      <button onclick="showCountdown()">🕒 Countdown to Release</button>
+      <button onclick="toggleNews()">📰 Latest News</button>
+      <button onclick="checkServers()">🌐 Server Status</button>
+    </div>
+    
+    <div id="countdown"></div>
+    
+    <div id="news">
+      <h3>📢 Rust Console Edition: New Gen News</h3>
+      <p>
+        <strong>🎮 Major Update Coming June 26, 2025!</strong><br>
+        The new-gen update for Rust Console Edition is officially launching with incredible improvements:
+      </p>
+      <ul>
+        <li>⚡ 60% faster loading times</li>
+        <li>🎨 Enhanced 4K graphics and ray tracing</li>
+        <li>🖥️ Dedicated servers for PS5 and Xbox Series X|S</li>
+        <li>🔧 Improved building mechanics and UI</li>
+        <li>🎁 Exclusive launch skins and items</li>
+      </ul>
+      <p>
+        <strong>Pre-order now</strong> to get early access 48 hours before launch and receive the exclusive "New Gen Survivor" skin pack!
+      </p>
+    </div>
+
+    <div class="server-status">
+      <div class="status-item">
+        <div>🌍 EU Servers</div>
+        <div class="status-online">● Online</div>
+      </div>
+      <div class="status-item">
+        <div>🇺🇸 US Servers</div>
+        <div class="status-online">● Online</div>
+      </div>
+      <div class="status-item">
+        <div>🌏 Asia Servers</div>
+        <div class="status-offline">● Maintenance</div>
+      </div>
+    </div>
+
+    <div class="social-links">
+      <button class="social-btn" onclick="openDiscord()">💬 Discord</button>
+      <button class="social-btn" onclick="openTwitter()">🐦 Twitter</button>
+      <button class="social-btn" onclick="openReddit()">📱 Reddit</button>
+    </div>
+  </div>
+
+  <script>
+    let countdownInterval;
+
+    function showCountdown() {
+      const countdownDiv = document.getElementById("countdown");
+      
+      if (countdownInterval) {
+        clearInterval(countdownInterval);
+        countdownDiv.innerHTML = "";
+        countdownInterval = null;
+        return;
+      }
+
+      function updateCountdown() {
+        const targetDate = new Date("2025-06-26T00:00:00");
+        const now = new Date();
+        const diff = targetDate - now;
+
+        if (diff <= 0) {
+          countdownDiv.innerHTML = "🎉 RUST NEW GEN IS LIVE! 🎉";
+          clearInterval(countdownInterval);
+          return;
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((diff / 1000 / 60) % 60);
+        const seconds = Math.floor((diff / 1000) % 60);
+
+        countdownDiv.innerHTML = ⏳ ${days}d ${hours}h ${minutes}m ${seconds}s;
+      }
+
+      updateCountdown();
+      countdownInterval = setInterval(updateCountdown, 1000);
+    }
+
+    function toggleNews() {
+      const news = document.getElementById("news");
+      if (news.style.display === "none" || news.style.display === "") {
+        news.style.display = "block";
+      } else {
+        news.style.display = "none";
+      }
+    }
+
+    function checkServers() {
+      alert("🔍 Checking server status...\n\n🌍 EU: Online (245ms)\n🇺🇸 US: Online (180ms)\n🌏 Asia: Maintenance (ETA: 2h)");
+    }
+
+    function openDiscord() {
+      alert("Opening Discord community... 💬");
+      // window.open("https://discord.gg/rust", "_blank");
+    }
+
+    function openTwitter() {
+      alert("Opening Twitter updates... 🐦");
+      // window.open("https://twitter.com/playrust", "_blank");
+    }
+
+    function openReddit() {
+      alert("Opening Reddit community... 📱");
+      // window.open("https://reddit.com/r/playrust", "_blank");
+    }
+
+    // Auto-show countdown on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(showCountdown, 1000);
+    });
+  </script>
+</body>
+</html> 
